@@ -1,0 +1,18 @@
+targetRevision: main
+
+cascadeDelete: true   # dev 는 앱 삭제 시 하위 리소스도 함께 삭제
+
+appPrefix: dev-<<CLUSTER>>-   # 예: dev-cms-
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+apps:
+  - name: <<APP_NAME>>              # 예: cms
+    path: helm-charts/<<APP_NAME>>  # 솔루션 레포 내 헬름차트 경로
+    namespace: dev-<<CLUSTER>>      # 예: dev-cms
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml

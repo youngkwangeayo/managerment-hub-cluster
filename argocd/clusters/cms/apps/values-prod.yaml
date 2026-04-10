@@ -1,0 +1,42 @@
+targetRevision: main
+
+cascadeDelete: false
+
+# syncPolicy 없음 = ArgoCD UI에서 앱별 수동 sync
+spec:
+  destination:
+    server: "https://*******.ap-northeast-2.eks.amazonaws.com"
+
+project: prod-cms-k8s-project
+
+
+appPrefix: prod-cms-
+
+apps:
+  - name: cms
+    path: helm-charts/cms/cms
+    namespace: prod-cms
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  
+  - name: cms-cron
+    path: helm-charts/cms/cms-cron
+    namespace: prod-cms
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  
+  - name: coffeezip-cms
+    path: helm-charts/cms/coffeezip-cms
+    namespace: prod-cms
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+
+  # - name: skincare
+  #   path: helm-charts/skincare/skincare
+  #   namespace: prod-skincare
+  #   valueFiles:
+  #     - values.yaml
+  #     - values-prod.yaml

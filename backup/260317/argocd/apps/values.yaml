@@ -1,0 +1,9 @@
+repoURL: git@bitbucket.org:*******/cms-k8s.git
+
+# 아래 값들은 clusters/{cluster}/values-{env}.yaml 에서 오버라이드
+clusterName: ""
+destinationServer: ""
+targetRevision: main
+cascadeDelete: false
+
+apps: []

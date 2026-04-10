@@ -1,0 +1,15 @@
+targetRevision: main
+
+cascadeDelete: false   # prod 는 앱 삭제 시 하위 리소스 보존 (Non-Cascading)
+
+appPrefix: prod-<<CLUSTER>>-   # 예: prod-cms-
+
+# syncPolicy 없음 = ArgoCD UI 에서 앱별 수동 Sync
+
+apps:
+  - name: <<APP_NAME>>              # 예: cms
+    path: helm-charts/<<APP_NAME>>  # 솔루션 레포 내 헬름차트 경로
+    namespace: prod-<<CLUSTER>>     # 예: prod-cms
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml

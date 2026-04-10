@@ -1,0 +1,12 @@
+spec:
+  destination:
+    server: "https://://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+
+repoURL: git@bitbucket.org:*******/cms-k8s.git
+
+project: dev-cms-k8s-project
+
+apps: []
+
+
+targetRevision: main

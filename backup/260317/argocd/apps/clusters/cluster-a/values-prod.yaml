@@ -1,0 +1,36 @@
+clusterName: cluster-a-prod
+destinationServer: https://kubernetes.default.svc  # 허브 클러스터 자신 (in-cluster)
+targetRevision: main
+
+cascadeDelete: false
+
+# syncPolicy 없음 = ArgoCD UI에서 앱별 수동 sync
+
+apps:
+  - name: argocd-infra
+    path: argocd/argocd-infra
+    namespace: argocd
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+
+  - name: cms
+    path: helm-charts/cms
+    namespace: prod-cms
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+
+  - name: cms-cron
+    path: helm-charts/cms-cron
+    namespace: prod-cms
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+
+  # - name: skincare
+  #   path: helm-charts/skincare
+  #   namespace: prod-skincare
+  #   valueFiles:
+  #     - values.yaml
+  #     - values-prod.yaml

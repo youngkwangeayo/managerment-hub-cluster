@@ -1,0 +1,17 @@
+clusterName: cluster-b-prod
+# argocd cluster add <context> --name cluster-b 후 나온 API 서버 URL로 교체
+destinationServer: https://CLUSTER_B_API_SERVER
+targetRevision: main
+
+cascadeDelete: false
+
+# syncPolicy 없음 = ArgoCD UI에서 앱별 수동 sync
+
+apps: []
+  # 예시: cluster-b에 배포할 앱 추가
+  # - name: my-service
+  #   path: helm-charts/my-service
+  #   namespace: prod-my-service
+  #   valueFiles:
+  #     - values.yaml
+  #     - values-prod.yaml

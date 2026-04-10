@@ -1,0 +1,164 @@
+arn: arn:aws:acm:ap-northeast-2:******************b8
+groupName: prod-mgmt-hub
+ingress:
+  host: mgmt-hub.*******.co.kr
+
+google:
+  hostedDomain: ****.co.kr
+  clientID: "***************apps.googleusercontent.com"
+  clientSecret: "GOC**********y"
+
+
+# 1. Repository 설정 (Bitbucket)
+# sshPrivateKey External Secrets로 주입하는 것을 권장합니다.
+repositories:
+  #허브 클러스터의 인프라(hub-setup)를 관리하는 레포지토리
+  - name: mgmt-hub-cluster
+    url: git@bitbucket.org:*******/mgmt-hub-cluster.git
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      ************
+      -----END OPENSSH PRIVATE KEY-----
+  
+  # service-hub    
+  - name: service-hub-k8s
+    url: git@bitbucket.org:*******/service-hub-k8s.git
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      ************
+      -----END OPENSSH PRIVATE KEY-----
+  
+  # cms
+  - name: cms-k8s
+    url: git@bitbucket.org:*******/cms-k8s.git
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      ************
+      -----END OPENSSH PRIVATE KEY-----
+  
+  # aiagent
+  - name: aiagent-k8s
+    url: git@bitbucket.org:*******/aiagent-k8s.git
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      ************
+      -----END OPENSSH PRIVATE KEY-----
+  
+  # signage
+  - name: signage-k8s
+    url: git@bitbucket.org:*******/signage-k8s.git
+    sshPrivateKey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      ************
+      -----END OPENSSH PRIVATE KEY-----
+
+# 2. AppProject 설정 (환경별 권한 분리)
+projects:
+  # cms
+  - name: dev-cms-k8s-project
+    description: "A Service Development Environment"
+    sourceRepos:
+      - "git@bitbucket.org:*******/cms-k8s.git"
+    destinations:
+      - server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+        namespace: "*"
+  
+  # cms prod
+  - name: prod-cms-k8s-project
+    description: "A Service Development Environment"
+    sourceRepos:
+      - "git@bitbucket.org:*******/cms-k8s.git"
+    destinations:
+      - server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+        namespace: "*"
+  
+  # aiagent
+  - name: dev-aiagent-k8s-project
+    description: "A Service Development Environment"
+    sourceRepos:
+      - "git@bitbucket.org:*******/aiagent-k8s.git"
+    destinations:
+      - server: "https://**********-2.eks.amazonaws.com"
+        namespace: "*"
+  
+  # aiagent prod
+  - name: prod-aiagent-k8s-project
+    description: "A Service Development Environment"
+    sourceRepos:
+      - "git@bitbucket.org:*******/aiagent-k8s.git"
+    destinations:
+      - server: "https://**********-2.eks.amazonaws.com"
+        namespace: "*"
+  
+  # signage
+  - name: dev-signage-k8s-project
+    description: "A Service Development Environment"
+    sourceRepos:
+      - "git@bitbucket.org:*******/signage-k8s.git"
+    destinations:
+      - server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+        namespace: "*"
+  
+  # signage prod
+  - name: prod-signage-k8s-project
+    description: "A Service Development Environment"
+    sourceRepos:
+      - "git@bitbucket.org:*******/signage-k8s.git"
+    destinations:
+      - server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+        namespace: "*"
+
+
+# 3. Target Cluster 설정
+clusters:
+  # dev-service-hub
+  - name: dev-service-hub-k8s-cluster
+    server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+    bearerToken: "****************************"
+    tlsClientConfig:
+      insecure: false
+      caData: "********************************************************"
+  
+  # cms prod
+  - name: prod-cms-k8s-cluster
+    server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+    bearerToken: "****************************"
+    tlsClientConfig:
+      insecure: false
+      caData: "********************************************************"
+  
+  # aiagent
+  - name: dev-aiagent-k8s-cluster
+    server: "https://**********-2.eks.amazonaws.com"
+    bearerToken: "****************************"
+    tlsClientConfig:
+      insecure: false
+      caData: "********************************************************"
+  
+  # aiagent prod
+  - name: prod-aiagent-k8s-cluster
+    server: "https://**********-2.eks.amazonaws.com"
+    bearerToken: "******************************************"
+    tlsClientConfig:
+      insecure: false
+      caData: "**********************************************************************"
+  # signage
+  - name: dev-signage-k8s-cluster
+    server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+    bearerToken: "******************************************"
+    tlsClientConfig:
+      insecure: false
+      caData: "********************************************************"
+  
+  # signage prod
+  - name: prod-signage-k8s-cluster
+    server: "https://**************.gr7.ap-northeast-2.eks.amazonaws.com"
+    bearerToken: "****************************"
+    tlsClientConfig:
+      insecure: false
+      caData: "**********************************************************************"
+
+
+
+
+apps: []

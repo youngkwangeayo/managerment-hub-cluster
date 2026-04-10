@@ -1,0 +1,30 @@
+{{- range $index, $ingress := .Values.ingresses }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $ingress.name }}-ingress
+  namespace: {{ $ingress.namespaceApp }}
+  labels:
+    app.kubernetes.io/name: {{ $ingress.name }}-ingress
+  annotations:
+    # --- [공통] ALB 그룹 설정 ---
+    alb.ingress.kubernetes.io/group.name: {{ $.Values.groupName | quote }} #그룹으로 추가.
+    # --- [공통] ALB 내부설정 설정 ---
+    alb.ingress.kubernetes.io/scheme: internet-facing # ALB를 퍼블릭으로 생성 (internet-facing), 내부용은 "internal"
+    alb.ingress.kubernetes.io/target-type: ip # 타겟을 파드의 IP로 지정 (타겟 타입: ip 또는 instance)
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]' # HTTP(80)와 HTTPS(443) 트래픽을 받기 위한 포트 설정
+    alb.ingress.kubernetes.io/ssl-redirect: '443' # HTTP 요청이 오면 자동으로 HTTPS(443)로 리다이렉션
+    # --- [개별] ALB 개별 설정 ---
+    alb.ingress.kubernetes.io/certificate-arn: {{ $.Values.arn | quote }} # ACM 인증서 연결 (ACM에서 발급받은 ARN 넣기)
+    # --- [공통] ALB 디폴트 액션 ---
+    alb.ingress.kubernetes.io/actions.default-action: >
+      {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"501","messageBody":"501 Target Not Implemented"}}
+spec:
+  ingressClassName: alb # ALB Ingress Controller가 처리해야 함을 명시 (IngressClass 리소스 이름)
+  defaultBackend:
+    service:
+      name: default-action  # 위의 어노테이션 이름과 일치해야 함
+      port:
+        name: use-annotation # 가짜 백엔드용 예약어
+{{- end }}

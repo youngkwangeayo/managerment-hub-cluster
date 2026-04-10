@@ -1,0 +1,2 @@
+Release ENV : {{ .Release.Namespace }} Build Name : {{ .Release.Name }} image : {{ .Values.serviceAccountName }}
+

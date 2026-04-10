@@ -1,0 +1,15 @@
+# 스포크 클러스터 API 서버 주소 (make get-spoke-info 로 확인)
+spec:
+  destination:
+    server: "https://<<CLUSTER_API_SERVER>>"   # 예: https://XXXX.gr7.ap-northeast-2.eks.amazonaws.com
+
+# 솔루션 헬름차트 레포지토리 (hub-setup/values.yaml 에 등록된 레포)
+repoURL: git@bitbucket.org:*******/<<SOLUTION_REPO>>.git   # 예: cms-k8s.git
+
+# ArgoCD 프로젝트 (hub-setup/values.yaml 에 등록된 프로젝트명)
+project: <<ENV>>-<<CLUSTER>>-k8s-project   # 예: dev-cms-k8s-project
+
+# 기본 브랜치 (values-dev.yaml / values-prod.yaml 에서 오버라이드)
+targetRevision: main
+
+apps: []

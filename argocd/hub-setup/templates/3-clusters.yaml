@@ -1,0 +1,24 @@
+{{- range .Values.clusters }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cluster-{{ .name }}
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "3" # 프로젝트 세팅 후 마지막 실행
+stringData:
+  name: {{ .name | quote }}
+  server: {{ .server | quote }}
+  # config 필드는 JSON 문자열 형태로 들어가야 하므로, Helm의 toJson 함수를 사용합니다.
+  config: |
+    {
+      "bearerToken": {{ .bearerToken | quote }},
+      "tlsClientConfig": {
+        "insecure": {{ .tlsClientConfig.insecure }},
+        "caData": {{ .tlsClientConfig.caData | quote }}
+      }
+    }
+---
+{{- end }}

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-aiagent-root-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@bitbucket.org:*******/mgmt-hub-cluster.git
+    targetRevision: main
+    path: argocd/clusters/aiagent/apps
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

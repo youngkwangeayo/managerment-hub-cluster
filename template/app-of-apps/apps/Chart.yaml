@@ -1,0 +1,6 @@
+apiVersion: v2
+name: <<CLUSTER>>-apps        # 예: cms-apps
+description: App of Apps Helm chart for <<CLUSTER>> cluster
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

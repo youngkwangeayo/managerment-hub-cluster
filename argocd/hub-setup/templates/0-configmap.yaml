@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0" 
+data:
+  url: https://{{ .Values.ingress.host }}
+  dex.config: |
+    connectors:
+    - type: google
+      id: google
+      name: Google
+      config:
+        clientID: {{ .Values.google.clientID }}
+        clientSecret: {{ .Values.google.clientSecret }}
+        hostedDomains:
+          - {{ .Values.google.hostedDomain }}

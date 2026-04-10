@@ -1,0 +1,46 @@
+targetRevision: main
+
+cascadeDelete: true
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+appPrefix: dev-signage-
+
+apps:
+  - name: sm
+    path: helm-charts/signage/sm
+    namespace: dev-signage
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: sm-api
+    path: helm-charts/signage/sm-api
+    namespace: dev-signage
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+      
+  - name: sm-cms
+    path: helm-charts/signage/sm-cms
+    namespace: dev-signage
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+  
+  - name: signage-hub
+    path: helm-charts/signage/signage-hub
+    namespace: dev-signage
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+  
+  - name: redis
+    path: helm-charts/signage/redis
+    namespace: dev-signage
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml

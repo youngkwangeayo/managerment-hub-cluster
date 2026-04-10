@@ -1,0 +1,40 @@
+
+targetRevision: main
+
+cascadeDelete: true
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+appPrefix: dev-cms-
+
+apps:
+  - name: cms
+    path: helm-charts/cms/cms
+    namespace: dev-cms
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: cms-cron
+    path: helm-charts/cms/cms-cron
+    namespace: dev-cms
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: coffeezip-cms
+    path: helm-charts/cms/coffeezip-cms
+    namespace: dev-cms
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: skincare
+    path: helm-charts/skincare/skincare
+    namespace: dev-skincare
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml

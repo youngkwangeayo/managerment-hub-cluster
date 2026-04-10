@@ -1,0 +1,15 @@
+# -------------------------------------------------------------------------
+# 타겟 클러스터 접속 권한(ServiceAccount 및 Secret) 설정
+# -------------------------------------------------------------------------
+serviceAccount:
+  # ServiceAccount 및 장기 토큰 Secret을 생성할지 여부
+  create: true
+  # 파드에 API 토큰을 자동으로 마운트할지 여부
+  automount: true
+  # 추가로 부여할 어노테이션이 있다면 여기에 작성 (보통은 비워둡니다)
+  annotations: {}
+  name: "argocd-manager"
+
+# 타겟 클러스터 셋업용 기본 설정값
+namespace: argocd-manager
+serviceAccountName: argocd-manager

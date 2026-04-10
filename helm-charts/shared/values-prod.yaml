@@ -1,0 +1,18 @@
+groupName : main-prod-cms-alb
+
+ingresses:
+  - name: cms
+    namespaceApp: prod-cms
+    healthcheck: "/command/checkHealth"
+    hosts:
+      - name: prod-cms.n*****.co.kr
+        service: cms-service
+        path: "/"
+
+  - name: skincare
+    namespaceApp: prod-skincare
+    healthcheck: "/api/v1/health"
+    hosts:
+      - name: prod-skincare.n*****.co.kr
+        service: skincare-service
+        path: "/"

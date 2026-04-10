@@ -1,0 +1,11 @@
+spec:
+  destination:
+    server: "https://**********-2.eks.amazonaws.com"
+
+repoURL: git@bitbucket.org:*******/aiagent-k8s.git
+
+project: dev-aiagent-k8s-project
+
+apps: []
+
+targetRevision: main

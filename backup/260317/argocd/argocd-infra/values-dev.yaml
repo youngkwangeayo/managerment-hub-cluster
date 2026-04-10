@@ -1,0 +1,4 @@
+groupName: main-dev-cms-alb
+
+ingress:
+  host: argocd-dev-cms.****.co.kr

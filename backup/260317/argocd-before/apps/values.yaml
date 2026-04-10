@@ -1,0 +1,7 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+
+repoURL: git@bitbucket.org:*******/cms-k8s.git
+
+apps: []

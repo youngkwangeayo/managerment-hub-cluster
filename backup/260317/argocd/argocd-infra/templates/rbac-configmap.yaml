@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  policy.default: role:readonly
+  # policy.default: ""
+  policy.csv: |
+    g, hugo@n*****.co.kr, role:admin
+    g, philip@n*****.co.kr, role:admin
+    g, roy@n*****.co.kr, role:admin
+    g, jaden.youn@n*****.co.kr, role:admin
+    g, leo@n*****.co.kr, role:admin
+    g, derek@n*****.co.kr, role:admin
+    g, evan@n*****.co.kr, role:admin
+    g, hugo-test@n*****.co.kr, role:readonly

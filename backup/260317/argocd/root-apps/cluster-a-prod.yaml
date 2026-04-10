@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-a-prod-root-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@bitbucket.org:*******/cms-k8s.git
+    targetRevision: main
+    path: argocd/apps
+    helm:
+      valueFiles:
+        - values.yaml
+        - clusters/cluster-a/values-prod.yaml
+  destination:
+    server: https://kubernetes.default.svc  # root-app 자체는 항상 허브에 생성
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

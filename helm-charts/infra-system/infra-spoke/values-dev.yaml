@@ -1,0 +1,27 @@
+
+groupName : dev-signage
+
+
+ingresses:
+  - name: sm
+    namespaceApp: dev-signage
+    healthcheck: "/health"
+    hosts:
+      - name: dev-sm.n*****.co.kr
+        service: sm-service
+        path: "/"
+      - name: dev-sm-api.n*****.co.kr
+        service: sm-api-service
+        path: "/"
+      - name: dev-sm-cms.n*****.co.kr
+        service: sm-cms-service
+        path: "/"
+
+  # - name: tmp
+  #   namespaceApp: dev-tmp
+  #   healthcheck: "/api/v1/health"
+  #   hosts:
+  #     - name: tmp.n*****.co.kr
+  #       service: tmp-service
+  #       path: "/"
+

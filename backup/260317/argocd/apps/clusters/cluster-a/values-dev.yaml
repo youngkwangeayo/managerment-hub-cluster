@@ -1,0 +1,39 @@
+clusterName: cluster-a-dev
+destinationServer: https://kubernetes.default.svc  # 허브 클러스터 자신 (in-cluster)
+targetRevision: main
+
+cascadeDelete: true
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+apps:
+  - name: argocd-infra
+    path: argocd/argocd-infra
+    namespace: argocd
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: cms
+    path: helm-charts/cms
+    namespace: dev-cms
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: cms-cron
+    path: helm-charts/cms-cron
+    namespace: dev-cms
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+
+  - name: skincare
+    path: helm-charts/skincare
+    namespace: dev-skincare
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml

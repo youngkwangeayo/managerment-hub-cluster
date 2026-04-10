@@ -1,0 +1,18 @@
+
+ingresses:
+  - name: cms
+    namespaceApp: dev-cms
+    healthcheck: "/command/checkHealth"
+    hosts:
+      - name: dev-cms.n*****.co.kr
+        service: cms-service
+        path: "/"
+
+  - name: skincare
+    namespaceApp: dev-skincare
+    healthcheck: "/api/v1/health"
+    hosts:
+      - name: dev-skincare.n*****.co.kr
+        service: skincare-service
+        path: "/"
+

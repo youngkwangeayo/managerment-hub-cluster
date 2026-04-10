@@ -1,0 +1,7 @@
+
+image:
+  repository: 365485194891.dkr.ecr.ap-northeast-2.amazonaws.com/k8s-test-app
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"

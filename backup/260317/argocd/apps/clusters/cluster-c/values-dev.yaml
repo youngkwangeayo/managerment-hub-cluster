@@ -1,0 +1,20 @@
+clusterName: cluster-c-dev
+# argocd cluster add <context> --name cluster-c 후 나온 API 서버 URL로 교체
+destinationServer: https://CLUSTER_C_API_SERVER
+targetRevision: main
+
+cascadeDelete: true
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+apps: []
+  # 예시: cluster-c에 배포할 앱 추가
+  # - name: my-service
+  #   path: helm-charts/my-service
+  #   namespace: dev-my-service
+  #   valueFiles:
+  #     - values.yaml
+  #     - values-dev.yaml

@@ -1,0 +1,49 @@
+targetRevision: main
+
+cascadeDelete: false
+
+# syncPolicy 없음 = ArgoCD UI에서 앱별 수동 sync
+spec:
+  destination:
+    server: "https://*************.gr7.ap-northeast-2.eks.amazonaws.com"
+
+project: prod-signage-k8s-project
+
+
+appPrefix: prod-signage-
+
+apps:
+  - name: sm
+    path: helm-charts/signage/sm
+    namespace: prod-signage
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+
+  - name: sm-api
+    path: helm-charts/signage/sm-api
+    namespace: prod-signage
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+      
+  - name: sm-cms
+    path: helm-charts/signage/sm-cms
+    namespace: prod-signage
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+ 
+  - name: signage-hub
+    path: helm-charts/signage/signage-hub
+    namespace: prod-signage
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  
+  - name: redis
+    path: helm-charts/signage/redis
+    namespace: prod-signage
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml

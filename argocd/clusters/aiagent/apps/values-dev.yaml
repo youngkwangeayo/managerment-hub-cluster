@@ -1,0 +1,42 @@
+targetRevision: main
+
+cascadeDelete: true
+
+appPrefix: dev-aiagent-
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+apps:
+  - name: aiagent-react
+    path: helm-charts/aiagent-react
+    namespace: dev-aiagent
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+  - name: aiagent-api
+    path: helm-charts/aiagent-api
+    namespace: dev-aiagent
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+  - name: aiagent-mq
+    path: helm-charts/aiagent-mq
+    namespace: dev-aiagent
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+  - name: aiagent-scheduler
+    path: helm-charts/aiagent-scheduler
+    namespace: dev-aiagent
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml
+  - name: aiagent-system
+    path: helm-charts/aiagent-system
+    namespace: dev-aiagent
+    valueFiles:
+      - values.yaml
+      - values-dev.yaml

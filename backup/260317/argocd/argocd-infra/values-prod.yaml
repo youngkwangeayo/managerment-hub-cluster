@@ -1,0 +1,5 @@
+groupName: main-prod-cms-alb
+
+ingress:
+  host: argocd-prod-cms.****.co.kr
+

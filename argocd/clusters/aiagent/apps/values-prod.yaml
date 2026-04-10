@@ -1,0 +1,46 @@
+targetRevision: main
+
+cascadeDelete: false
+
+appPrefix: prod-aiagent-
+
+# syncPolicy 없음 = ArgoCD UI에서 앱별 수동 sync
+spec:
+  destination:
+    server: "https://**********-2.eks.amazonaws.com"
+
+project: prod-aiagent-k8s-project
+
+
+
+apps:
+  - name: aiagent-react
+    path: helm-charts/aiagent-react
+    namespace: prod-aiagent
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  - name: aiagent-api
+    path: helm-charts/aiagent-api
+    namespace: prod-aiagent
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  - name: aiagent-mq
+    path: helm-charts/aiagent-mq
+    namespace: prod-aiagent
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  - name: aiagent-scheduler
+    path: helm-charts/aiagent-scheduler
+    namespace: prod-aiagent
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml
+  - name: aiagent-system
+    path: helm-charts/aiagent-system
+    namespace: prod-aiagent
+    valueFiles:
+      - values.yaml
+      - values-prod.yaml

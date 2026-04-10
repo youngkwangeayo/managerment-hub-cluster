@@ -1,0 +1,22 @@
+
+
+# ACM 인증서 연결 (ACM에서 발급받은 ARN 넣기)  N 개 일때 , 로 연결  예시-arn:1, arn:2
+arn: arn:aws:******/e885ba4f-8**********c8b8
+
+# main ALB ALB 1개로 사용하기 위함.
+groupName : main-prod-mgmt-hub-alb
+# 환경-values 파일안에 정의하기.
+ingresses: []
+
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""

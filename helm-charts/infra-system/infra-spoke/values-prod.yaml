@@ -1,0 +1,25 @@
+groupName : main-prod-signage-alb
+
+
+ingresses:
+  - name: sm
+    namespaceApp: prod-signage
+    healthcheck: "/health"
+    hosts:
+      - name: sm.n*****.co.kr
+        service: sm-service
+        path: "/"
+      - name: sm-api.n*****.co.kr
+        service: sm-api-service
+        path: "/"
+      - name: sm-cms.n*****.co.kr
+        service: sm-cms-service
+        path: "/"
+
+  # - name: tmp
+  #   namespaceApp: prod-tmp
+  #   healthcheck: "/api/v1/health"
+  #   hosts:
+  #     - name: tmp.n*****.co.kr
+  #       service: tmp-service
+  #       path: "/"

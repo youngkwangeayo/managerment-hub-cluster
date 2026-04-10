@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "test-app.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: # Deployment 리소스 자체를 식별하는 라벨 (kubectl get deploy -l app.kubernetes.io/name={{ include "test-app.fullname" . }})
+    app.kubernetes.io/name: {{ include "test-app.fullname" . }}
+    app.kubernetes.io/app: {{ include "test-app.fullname" . }}
+    app.kubernetes.io/version: "1"
+    app.kubernetes.io/component: {{ include "test-app.fullname" . }}
+spec:
+  replicas: 1 # 동시에 실행할 Pod 개수 (고가용성을 위해 최소 2개 권장)
+  strategy: # 배포(업데이트) 시 Pod 교체 전략
+    type: RollingUpdate # 무중단 배포: 새 Pod 생성 → 준비되면 → 기존 Pod 종료
+    rollingUpdate:
+      maxSurge: 1 # 업데이트 중 replicas 초과로 추가 생성 가능한 Pod 수 (2+1=최대 3개)
+      maxUnavailable: 1 # 업데이트 중 동시에 종료 가능한 Pod 수 (최소 1개는 항상 Running)
+  selector: # Deployment가 관리할 Pod를 찾는 조건 (아래 matchLabels와 template.metadata.labels가 반드시 일치해야 함)
+    matchLabels:
+      app: {{ include "test-app.fullname" . }} # 이 라벨을 가진 Pod만 이 Deployment가 관리
+  template: # Pod 생성 템플릿 (ReplicaSet이 이 템플릿으로 Pod 생성)
+    metadata:
+      labels: # Pod에 부여할 라벨 (selector.matchLabels와 일치 필수, Service도 이 라벨로 Pod 선택)
+        app: {{ include "test-app.fullname" . }}
+    spec:
+      containers:
+        - name: {{ include "test-app.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always # 항상 최신 이미지 pull (개발환경용, 운영에서는 특정 태그 권장)
+          resources: # 컨테이너 리소스 제한 (노드 자원 보호 및 스케줄링용)
+            requests: # 최소 보장 리소스 (스케줄러가 노드 선택 시 참고) (1000m = 1 CPU 코어, 100m = 0.1 CPU)
+              cpu: "150m" # 0.300 CPU core
+              memory: "300Mi"
+            limits: # 최대 사용 가능 리소스 (초과 시 CPU throttling, 메모리는 OOMKilled)
+              cpu: "200m" # 0.6 CPU core
+              memory: "350Mi"
+          # ============ Health Check Probes ============
+          startupProbe: # 앱 초기 기동 체크
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 5 # 5초마다 체크
+            failureThreshold: 12 # 12번 실패 시 컨테이너 재시작 (5초 × 12 = 최대 60초 대기)
+          livenessProbe: # 앱 생존 체크 (실패 시 컨테이너 재시작)
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10 # startupProbe 성공 후 10초 뒤 첫 체크
+            periodSeconds: 10 # 10초 간격으로 체크
+            timeoutSeconds: 5 # 응답 대기 시간
+            # failureThreshold 기본값: 3 (3번 실패 시 컨테이너 kill → 재시작)
+          # readinessProbe 제거: 크론 서비스는 트래픽을 받지 않으므로 불필요
+          readinessProbe:  # 체크안되면 로드밸런서(ClusterIP, Service)트래픽안보냄.
+            httpGet:
+              path: /
+              port: 80
+          ports:
+            - containerPort: 80
